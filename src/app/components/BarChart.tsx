@@ -34,7 +34,7 @@ const BarChart: React.FC<BarChartProps> = ({ grades, colors }) => {
    if (!grades || grades.length === 0 || !colors || colors.length === 0) {
       return null; // Do not render anything
    }
-   console.log(`grades: ${JSON.stringify(grades)}`);
+   // console.log(`grades: ${JSON.stringify(grades)}`);
    // Map Tailwind CSS classes to hex codes if needed
    const tailwindColors: { [key: string]: string } = {
       "border-t-blue-400": "#60A5FA",

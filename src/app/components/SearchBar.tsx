@@ -13,6 +13,7 @@ interface SearchBarProps {
    resetState?: () => void;
    course?: string;
    professor?: string;
+   routeType?: "course" | "professor" | null;
 }
 
 export default function SearchBar({
@@ -20,6 +21,7 @@ export default function SearchBar({
    resetState,
    course,
    professor,
+   routeType,
 }: SearchBarProps) {
    const [searchInput, setSearchInput] = useState(initialValue);
    const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
@@ -61,11 +63,24 @@ export default function SearchBar({
    }, []);
 
    const handleSearch = (suggestion: string) => {
-
+      console.log(course, suggestion);
       setSearchInput(suggestion);
       setSuggestions([]);
 
-      if (!(course === suggestion || professor === suggestion)) {
+      /* 
+         'course' contains the course subject and code e.g. "CSE 3320"
+         'suggestion' contains course subject, code, and name e.g. "CSE 3320 OPERATING SYSTEMS"
+         Extract the first two terms from 'suggestion' to compare against 'course' below.
+      */
+      const courseSuggestion = suggestion.split(" ").slice(0, 2).join(" ")
+
+      /* 
+         Do not reset the state if user searches for the content already displayed.
+         e.g. If user is on the CSE 3320 page and searches for CSE 3320, do not reset
+         the state as this will break the displayed results. Only reset the state if
+         routing to new content. 
+      */
+      if (!((course == courseSuggestion && routeType === "course") || (professor === suggestion && routeType === "professor"))) {
          if (resetState) {
             resetState();
          }
@@ -76,7 +91,7 @@ export default function SearchBar({
       );
 
       // Splitting the input string to extract the subject_id and course_number
-      const parts = suggestion.split(' '); 
+      const parts = courseSuggestion.split(' '); 
       if (parts.length >= 2) {
          const coursePrefix = parts[0]; 
          const courseNumber = parts[1]; 

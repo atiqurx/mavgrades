@@ -20,7 +20,6 @@ const montserrat = Montserrat({
    variable: "--font-montserrat",
 });
 
-//TODO: Fix routing from course to itself, or professor to itself. Ex: clicking on search suggestion Jack Poe from /results?professor=Jack%20Poe
 const ResultsContent = () => {
    const router = useRouter();
    const searchParams = useSearchParams();
@@ -102,14 +101,14 @@ const ResultsContent = () => {
       }
    };
    console
-      .log
-      //   selectedProfessor,
-      //   selectedCourse,
-      //   selectedYear,
-      //   selectedSemester,
-      //   selectedSection
-      // selectedItems
-      ();
+      .log(
+        selectedProfessor,
+        selectedCourse,
+        selectedYear,
+        selectedSemester,
+        selectedSection,
+        selectedItems
+      );
    useEffect(() => {
       if (course || professor) {
          fetchCourses();
@@ -227,6 +226,7 @@ const ResultsContent = () => {
                   resetState={resetState}
                   course={selectedCourse}
                   professor={selectedProfessor}
+                  routeType={routeType}
                />
             </div>
 
