@@ -179,7 +179,7 @@ const SideBar: React.FC<SideBarProps> = ({
          }`}>
             {routeType === "course" ? (
                <ul className="space-y-2 lg:space-y-4">
-                  {professors.map((professor, index) => (
+                  {professors.slice().sort((a, b) => a.localeCompare(b)).map((professor, index) => (
                      <li
                         key={index}
                         className="p-4 rounded-lg shadow-sm cursor-pointer bg-gray-200 bg-opacity-10"
