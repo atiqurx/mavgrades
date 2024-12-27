@@ -75,7 +75,6 @@
     }
   }
 
-  /* In your globals.css */
 @layer utilities {
   /* Chrome, Safari and Opera */
   .scrollbar-thin::-webkit-scrollbar {
@@ -101,3 +100,15 @@
     scrollbar-color: #4a5568 transparent;
   }
 }
+
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: white black;
+}
+
+::-webkit-scrollbar-thumb {
+  background: white; /* Thumb color */
+  border-radius: 3px; /* Rounded corners for thumb */
+}
+
