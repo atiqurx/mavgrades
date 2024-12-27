@@ -182,7 +182,7 @@ const SideBar: React.FC<SideBarProps> = ({
                   {professors.map((professor, index) => (
                      <li
                         key={index}
-                        className="p-4 rounded-lg shadow-sm cursor-pointer bg-[#2a3b50]"
+                        className="p-4 rounded-lg shadow-sm cursor-pointer bg-gray-200 bg-opacity-10"
                         onClick={() => toggleProfessorAccordion(index, professor)}
                      >
                         <div className="flex items-center">
@@ -210,7 +210,7 @@ const SideBar: React.FC<SideBarProps> = ({
       
                         {openProfessorAccordion === index && (
                            <div 
-                              className="mt-2 bg-[#2a3b50] p-2 rounded-lg cursor-auto"
+                              className="mt-2 bg-gray-200 bg-opacity-10 p-2 rounded-lg cursor-auto"
                               onClick={(event) => event.stopPropagation()}
                            >
                               <SelectionDropdowns
@@ -237,7 +237,7 @@ const SideBar: React.FC<SideBarProps> = ({
                   {coursesToDisplay.map((course, index) => (
                      <li
                         key={index}
-                        className="p-4 rounded-lg shadow-sm cursor-pointer bg-[#2a3b50]"
+                        className="p-4 rounded-lg shadow-sm cursor-pointer bg-gray-200 bg-opacity-10"
                         onClick={() => toggleCourseAccordion(index, `${course.subject_id} ${course.course_number}`)}
                      >
                         <div className="flex items-center">
@@ -253,7 +253,7 @@ const SideBar: React.FC<SideBarProps> = ({
       
                         {openCourseAccordion === index && (
                            <div 
-                              className="mt-4 bg-[#2a3b50] p-4 rounded-lg cursor-auto"
+                              className="mt-4 bg-gray-200 bg-opacity-10 p-4 rounded-lg cursor-auto"
                               onClick={(event) => event.stopPropagation()}
                            >
                               <SelectionDropdowns
