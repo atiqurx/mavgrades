@@ -29,41 +29,47 @@ export default function SearchBar({
    const router = useRouter();
 
    useEffect(() => {
-      setSearchInput(initialValue); // Update input when initialValue changes
-   }, [initialValue]);
+      setSearchInput(initialValue);
+      // If initialValue is empty, clear suggestions.
+      if (!initialValue) {
+        setSuggestions([]);
+      }
+    }, [initialValue]);
 
-   // Create a debounced version of the fetchSuggestions function
    const fetchSuggestions = useRef(
       debounce(async (input: string) => {
-         if (input.length > 1) {
-            setIsLoading(true); // Start loading
-            try {
-               const response = await fetch(
-                  `/api/courses/search?query=${input}`
-               );
-               const data = await response.json();
-               setSuggestions(data);
-            } catch (error) {
-               console.error("Error fetching suggestions:", error);
-               setSuggestions([]); // Clear suggestions on error
-            } finally {
-               setIsLoading(false); // Stop loading
-            }
-         } else {
-            setSuggestions([]);
-         }
-      }, 100) // Decrease the debounce time for quicker suggestion response, but might lead to more backend calls
-   ).current;
+          const trimmedInput = input.trim();
+          if (trimmedInput.length > 1) {
+              setIsLoading(true);
+              try {
+                  // Encode the input
+                  const response = await fetch(
+                      `/api/courses/search?query=${encodeURIComponent(trimmedInput)}`
+                  );
+                  if (!response.ok) {
+                      throw new Error(`API request failed: ${response.status}`);
+                  }
+                  const data = await response.json();
+                  setSuggestions(data);
+              } catch (error) {
+                  console.error("Error fetching suggestions:", error);
+                  setSuggestions([]); // Clear suggestions on error
+              } finally {
+                  setIsLoading(false);
+              }
+          } else {
+              setSuggestions([]);
+          }
+      }, 300)
+    ).current;
 
-   useEffect(() => {
+    useEffect(() => {
       return () => {
-         fetchSuggestions.cancel(); // Clean up on unmount
+          fetchSuggestions.cancel();
       };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, []);
+    }, [fetchSuggestions]);
 
    const handleSearch = (suggestion: string) => {
-      console.log(course, suggestion);
       setSearchInput(suggestion);
       setSuggestions([]);
 
@@ -80,11 +86,14 @@ export default function SearchBar({
          the state as this will break the displayed results. Only reset the state if
          routing to new content. 
       */
-      if (!((course == courseSuggestion && routeType === "course") || (professor === suggestion && routeType === "professor"))) {
-         if (resetState) {
+      const isSameCourse = course && suggestion.startsWith(course) && routeType === "course";
+      const isSameProfessor = professor && suggestion === professor && routeType === "professor";
+  
+      if (!(isSameCourse || isSameProfessor) && resetState) {
             resetState();
-         }
       }
+
+
       // Check if the suggestion is a professor or a course
       const isProfessor = suggestions.find(
          (s) => s.suggestion === suggestion && s.type === "professor"
@@ -112,7 +121,7 @@ export default function SearchBar({
    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const input = e.target.value;
       setSearchInput(input);
-      fetchSuggestions(input); // Call the debounced function
+      fetchSuggestions(input);
    };
 
    return (
@@ -123,19 +132,26 @@ export default function SearchBar({
                placeholder="Search for a course or professor"
                value={searchInput}
                onChange={handleInputChange}
-               onKeyDown={(e) => e.key === 'Enter' && handleSearch(suggestions[0].suggestion)}
+               onKeyDown={(e) => {
+                if (e.key === 'Enter' && suggestions.length > 0) {
+                    handleSearch(suggestions[0].suggestion);
+                    e.preventDefault();
+                }
+               }}
                className="w-full p-3 border border-gray-500 rounded-xl shadow-sm focus:outline-none focus:border-blue-500 bg-white bg-opacity-10"
+               aria-label="Search for a course or professor"
+               aria-autocomplete="list"
             />
-            <FaSearch 
-               onClick={() => handleSearch(suggestions[0].suggestion)}
-               className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-300 w-4 h-4"
+            <FaSearch
+              onClick={() =>  suggestions.length > 0 && handleSearch(suggestions[0].suggestion)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-300 w-4 h-4"
             />
          </div>
          {isLoading && (
             <div className="absolute w-full max-h-60 bg-gray-200 border border-gray-500 rounded-lg mt-2 shadow-lg z-10 text-black"></div>
          )}
          {suggestions.length > 0 && !isLoading && (
-            <ul className="absolute w-full max-h-60 bg-white border border-gray-300 rounded-lg mt-2 shadow-lg z-10 overflow-y-scroll">
+            <ul className="absolute w-full max-h-60 bg-white border border-gray-300 rounded-lg mt-2 shadow-lg z-10 overflow-y-auto">
                {suggestions.map((suggestion, index) => (
                   <li
                      key={index}
