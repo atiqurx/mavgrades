@@ -128,9 +128,12 @@ def csv_to_combined_json(directory):
               row[f"instructor{6-i}"] = ""
             
           try:
-            row.pop("\ufeffAcademic Year")
+              row.pop("\ufeffAcademic Year")  # Handles BOM-prefixed name
           except KeyError:
-            print("Warning: Academic Year not removed")
+              try:
+                  row.pop("Academic Year")  # Handles normal name
+              except KeyError:
+                  print("Warning: Academic Year not removed")
             
           # Compute course_gpa and drop_percent
           try:
@@ -166,6 +169,9 @@ def csv_to_combined_json(directory):
               drop_percent = None
                 
             if course_gpa is None and I_count > 0:
+              course_gpa = 0
+              
+            if course_gpa is None and drop_percent == 100:
               course_gpa = 0
 
             row["course_gpa"] = round(course_gpa, 2) if course_gpa is not None else None
