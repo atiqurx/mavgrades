@@ -12242,7 +12242,7 @@
   {
     "subject_id": "ILDT",
     "course_number": "5302",
-    "course_title": "",
+    "course_title": "THEORIES TEACH & LEARN W/TECH",
     "section_number": "001",
     "grades": {
       "A": "9",
@@ -25082,7 +25082,7 @@
   {
     "subject_id": "SOCW",
     "course_number": "6395",
-    "course_title": "",
+    "course_title": "PSYCHOMETRICS AND MEASUREMENT",
     "section_number": "001",
     "grades": {
       "A": "7",
@@ -35942,7 +35942,7 @@
   {
     "subject_id": "MANA",
     "course_number": "3325",
-    "course_title": "",
+    "course_title": "ENTREPRENEUR I",
     "section_number": "003",
     "grades": {
       "A": "6",
@@ -39272,7 +39272,7 @@
   {
     "subject_id": "KINE",
     "course_number": "3351",
-    "course_title": "",
+    "course_title": "PUBLIC HEALTH INFORMATICS",
     "section_number": "001",
     "grades": {
       "A": "45",
@@ -51632,7 +51632,7 @@
   {
     "subject_id": "MANA",
     "course_number": "3320",
-    "course_title": "",
+    "course_title": "HUMAN RESOURCE MANAGEMENT",
     "section_number": "004",
     "grades": {
       "A": "4",
@@ -51662,7 +51662,7 @@
   {
     "subject_id": "MANA",
     "course_number": "3320",
-    "course_title": "",
+    "course_title": "HUMAN RESOURCE MANAGEMENT",
     "section_number": "007",
     "grades": {
       "A": "3",
@@ -58172,7 +58172,7 @@
   {
     "subject_id": "MANA",
     "course_number": "3325",
-    "course_title": "",
+    "course_title": "ENTREPRENEUR I",
     "section_number": "001",
     "grades": {
       "A": "16",
@@ -60122,7 +60122,7 @@
   {
     "subject_id": "MANA",
     "course_number": "3320",
-    "course_title": "",
+    "course_title": "HUMAN RESOURCE MANAGEMENT",
     "section_number": "003",
     "grades": {
       "A": "20",
@@ -60152,7 +60152,7 @@
   {
     "subject_id": "MANA",
     "course_number": "3320",
-    "course_title": "",
+    "course_title": "HUMAN RESOURCE MANAGEMENT",
     "section_number": "006",
     "grades": {
       "A": "20",
@@ -64112,7 +64112,7 @@
   {
     "subject_id": "WOMS",
     "course_number": "3300",
-    "course_title": "",
+    "course_title": "TOPICS IN WOMENS & GENDER STU",
     "section_number": "001",
     "grades": {
       "A": "8",
@@ -64532,7 +64532,7 @@
   {
     "subject_id": "MANA",
     "course_number": "3320",
-    "course_title": "",
+    "course_title": "HUMAN RESOURCE MANAGEMENT",
     "section_number": "001",
     "grades": {
       "A": "10",
@@ -64562,7 +64562,7 @@
   {
     "subject_id": "MANA",
     "course_number": "3320",
-    "course_title": "",
+    "course_title": "HUMAN RESOURCE MANAGEMENT",
     "section_number": "002",
     "grades": {
       "A": "11",
@@ -75002,7 +75002,7 @@
   {
     "subject_id": "NURS",
     "course_number": "2300",
-    "course_title": "",
+    "course_title": "INTRO TO PROFESSIONAL NURSING",
     "section_number": "600",
     "grades": {
       "A": "51",
@@ -75032,7 +75032,7 @@
   {
     "subject_id": "NURS",
     "course_number": "2300",
-    "course_title": "",
+    "course_title": "INTRO TO PROFESSIONAL NURSING",
     "section_number": "601",
     "grades": {
       "A": "53",
@@ -75062,7 +75062,7 @@
   {
     "subject_id": "NURS",
     "course_number": "2300",
-    "course_title": "",
+    "course_title": "INTRO TO PROFESSIONAL NURSING",
     "section_number": "602",
     "grades": {
       "A": "56",
@@ -77972,7 +77972,7 @@
   {
     "subject_id": "NURS",
     "course_number": "2300",
-    "course_title": "",
+    "course_title": "INTRO TO PROFESSIONAL NURSING",
     "section_number": "603",
     "grades": {
       "A": "37",
@@ -78002,7 +78002,7 @@
   {
     "subject_id": "NURS",
     "course_number": "2300",
-    "course_title": "",
+    "course_title": "INTRO TO PROFESSIONAL NURSING",
     "section_number": "604",
     "grades": {
       "A": "19",
@@ -78032,7 +78032,7 @@
   {
     "subject_id": "NURS",
     "course_number": "2300",
-    "course_title": "",
+    "course_title": "INTRO TO PROFESSIONAL NURSING",
     "section_number": "605",
     "grades": {
       "A": "40",
@@ -80642,7 +80642,7 @@
   {
     "subject_id": "SCIE",
     "course_number": "1334",
-    "course_title": "",
+    "course_title": "STEP 1 & 2 COMBO: INQRY TEACH",
     "section_number": "001",
     "grades": {
       "A": "8",
@@ -80972,7 +80972,7 @@
   {
     "subject_id": "MANA",
     "course_number": "3320",
-    "course_title": "",
+    "course_title": "HUMAN RESOURCE MANAGEMENT",
     "section_number": "001",
     "grades": {
       "A": "23",
@@ -88532,7 +88532,7 @@
   {
     "subject_id": "CE",
     "course_number": "3347",
-    "course_title": "",
+    "course_title": "REINFORCED CONCRETE DESIGN",
     "section_number": "001",
     "grades": {
       "A": "9",
@@ -88562,7 +88562,7 @@
   {
     "subject_id": "CE",
     "course_number": "3347",
-    "course_title": "",
+    "course_title": "REINFORCED CONCRETE DESIGN",
     "section_number": "101",
     "grades": {
       "A": "2",
@@ -90122,7 +90122,7 @@
   {
     "subject_id": "KINE",
     "course_number": "3351",
-    "course_title": "",
+    "course_title": "PUBLIC HEALTH INFORMATICS",
     "section_number": "500",
     "grades": {
       "A": "29",
@@ -90902,7 +90902,7 @@
   {
     "subject_id": "MANA",
     "course_number": "3325",
-    "course_title": "",
+    "course_title": "ENTREPRENEUR I",
     "section_number": "002",
     "grades": {
       "A": "27",
@@ -102872,7 +102872,7 @@
   {
     "subject_id": "NURS",
     "course_number": "2300",
-    "course_title": "",
+    "course_title": "INTRO TO PROFESSIONAL NURSING",
     "section_number": "002",
     "grades": {
       "A": "14",
@@ -102902,7 +102902,7 @@
   {
     "subject_id": "NURS",
     "course_number": "2300",
-    "course_title": "",
+    "course_title": "INTRO TO PROFESSIONAL NURSING",
     "section_number": "003",
     "grades": {
       "A": "21",
@@ -102932,7 +102932,7 @@
   {
     "subject_id": "NURS",
     "course_number": "2300",
-    "course_title": "",
+    "course_title": "INTRO TO PROFESSIONAL NURSING",
     "section_number": "072",
     "grades": {
       "A": "29",
@@ -106862,7 +106862,7 @@
   {
     "subject_id": "MANA",
     "course_number": "4328",
-    "course_title": "",
+    "course_title": "HR STAFFING & PERFORMANCE MGMT",
     "section_number": "001",
     "grades": {
       "A": "26",

@@ -50,8 +50,9 @@ def csv_to_combined_json(directory):
               row["course_title"] = courses_info[course_code]
             else:
               row["course_title"] = ""
+              print(f"Warning: Course Title not found for {course_code}")
           except KeyError:
-            print("Warning: Course Title not found")
+            print(f"Warning: Course Title not found for {course_code} (KeyError)")
           # end of edit
           try:
             row["section_number"] = row.pop("Section Number")
