@@ -30,7 +30,7 @@ Ensure you have the following installed on your machine:
 ### **Cloning the Repository**
 
 ```bash
-git clone https://github.com/MuhammadHunainKhurram/MavGrades.git
+git clone https://github.com/acmuta/mavgrades
 cd MavGrades
 ```
 
