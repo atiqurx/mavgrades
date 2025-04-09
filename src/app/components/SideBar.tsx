@@ -160,9 +160,9 @@ const SideBar: React.FC<SideBarProps> = ({
 
 
    return (
-      <div className="flex flex-col lg:w-1/3 w-full mx-auto mt-4 mr-4 lg:mt-10 bg-gray-200 bg-opacity-10 rounded-lg min-w-[320px] overflow-hidden"> 
+      <div className="flex flex-col lg:w-1/3 w-full mx-auto mt-4 mr-4 lg:mt-10 bg-gray-200 bg-opacity-10 rounded-lg min-w-[320px] overflow-hidden min-h-[460px]"> 
          {routeType === "course" ? (
-            <div className=" z-10 px-4 pt-4 sticky top-0">
+            <div className="z-10 px-4 pt-4 sticky top-0">
                <div className="align-middle flex mb-4">
                   <span className="mr-5 text-white text-sm lg:text-base">Compare professors</span>
                   <ToggleSwitch isEnabled={checkboxEnabled} onToggle={onToggle} />
@@ -172,11 +172,7 @@ const SideBar: React.FC<SideBarProps> = ({
             <div className="pt-4" />
          )}
       
-         <div className={`overflow-y-auto px-4 pb-4 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent ${
-            selectedItems.size > 0 
-               ? 'h-[calc(100vh-240px)]'
-               : 'max-h-[calc(100vh-240px)]'
-         }`}>
+         <div className="overflow-y-auto px-4 pb-4 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent h-[calc(100%-44px)] min-h-[400px]">
             {routeType === "course" ? (
                <ul className="space-y-2 lg:space-y-4">
                   {professors.slice().sort((a, b) => a.localeCompare(b)).map((professor, index) => (
@@ -257,7 +253,7 @@ const SideBar: React.FC<SideBarProps> = ({
                               onClick={(event) => event.stopPropagation()}
                            >
                               <SelectionDropdowns
-                                 selectedProfessor={course .instructor1}
+                                 selectedProfessor={course.instructor1}
                                  selectedCourseSubject={course.subject_id}
                                  selectedYear={selectedYear}
                                  setSelectedYear={setSelectedYear}
