@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import BarChart from "./BarChart";
 import { GradesInfoCard } from "./GradesInfoCard";
+import { Star, Search } from "lucide-react";
+import { Rampart_One } from "next/font/google";
 
 // Map Tailwind CSS classes to hex codes if needed
 const tailwindColors: { [key: string]: string } = {
@@ -32,14 +34,20 @@ const StatsCard = ({ selectedItems }: { selectedItems: Map<string, any> }) => {
    const lineColor =
       tailwindColors[colorClasses[0]] || colorClasses[0] || "#57D2DD";
 
+   const getRMPUrl = (professorName: string) => {
+      return `https://www.ratemyprofessors.com/search/professors/1343?q=${encodeURIComponent(professorName)}`;
+   };
+
    const InfoBox = ({
       label,
       value,
       colorClass,
+      isProf = false,
    }: {
       label: string;
       value: string | number;
       colorClass: string;
+      isProf?: boolean;
    }) => {
       const textColor = tailwindColors[colorClass] || "#FFFFFF";
 
@@ -48,9 +56,22 @@ const StatsCard = ({ selectedItems }: { selectedItems: Map<string, any> }) => {
             className={`flex flex-col bg-gray-200 bg-opacity-10 p-3 gap-2 w-1/3 rounded-lg font-bold drop-shadow-lg border-t-4 ${colorClass} hover:drop-shadow-xl transition-transform ease-in-out duration-300`}
          >
             <span className="text-white text-xs sm:text-base">{label}</span>
-            <span className="text-sm sm:text-lg" style={{ color: textColor }}>
-               {value}
-            </span>
+            <div className="flex items-center gap-1">
+               <span className="text-sm sm:text-lg" style={{ color: textColor }}>
+                  {value}
+               </span>
+               {isProf && (
+                  <a
+                     href={getRMPUrl(value.toString())}
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     className="ml-[5%] text-white hover:text-gray-300 transition-colors"
+                     title={`View ${value} on Rate My Professor`}
+                  >
+                     <img src="rmp.svg" alt="RMP" width="30" height="30" className="mr-1" />
+                  </a>
+               )}
+            </div>
          </div>
       );
    };
@@ -112,6 +133,7 @@ const StatsCard = ({ selectedItems }: { selectedItems: Map<string, any> }) => {
                               label="PROFESSOR"
                               value={aggregatedData[0].instructor1}
                               colorClass={colorClasses[0]}
+                              isProf={true}
                            />
                         )}
                         {aggregatedData[0]?.year && (
@@ -184,6 +206,7 @@ const StatsCard = ({ selectedItems }: { selectedItems: Map<string, any> }) => {
                                  label="PROFESSOR"
                                  value={sectionData.instructor1}
                                  colorClass={colorClass}
+                                 isProf={true}
                               />
                            )}
                            {sectionData?.year && (
