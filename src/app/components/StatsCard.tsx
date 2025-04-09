@@ -158,7 +158,8 @@ const StatsCard = ({ selectedItems }: { selectedItems: Map<string, any> }) => {
                            <InfoBox
                               label="WITHDRAWAL RATE"
                               value={`${Math.ceil(
-                                 (Number(aggregatedData[0].grades_W) /
+                                 ((Number(aggregatedData[0].grades_W) + 
+                                    Number(aggregatedData[0].grades_Q))/
                                     Number(aggregatedData[0].grades_count)) *
                                     100
                               )}%`}
