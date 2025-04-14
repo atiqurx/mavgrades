@@ -28,7 +28,7 @@ export const GradesInfoCard = () => {
                </tr>
                <tr>
                   <td>D</td>
-                  <td>Passing, Below Average</td>
+                  <td>Below Average</td>
                </tr>
                <tr>
                   <td>F</td>
