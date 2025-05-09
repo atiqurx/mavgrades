@@ -57,11 +57,11 @@ async function getProfessorData(professorName: string) {
     WHERE  name = ?;
   `;
 
-  console.log("[SQL] executing:", sql.trim(), "param:", professorName);
+  // console.log("[SQL] executing:", sql.trim(), "param:", professorName);
 
   const row = await db.get(sql, [professorName]);
 
-  console.log("[SQL] result:", row);
+  // console.log("[SQL] result:", row);
 
   if (row) cache.set(professorName, row);
   return row;
