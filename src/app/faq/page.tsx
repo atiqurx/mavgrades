@@ -99,7 +99,7 @@ const FAQPage = () => {
                ACM @ UTA
             </a>
             . Not affiliated with or sponsored by UT Arlington.
-            <br />© 2024{" "}
+            <br />© 2025{" "}
             <a href="https://acmuta.com" className="hover:underline">
                ACM @ UT Arlington
             </a>
