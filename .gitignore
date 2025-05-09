@@ -38,3 +38,7 @@ next-env.d.ts
 
 # vscode
 .vscode/
+
+# temp db files
+*.db-shm
+*.db-wal
