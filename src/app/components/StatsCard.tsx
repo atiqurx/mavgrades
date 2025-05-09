@@ -2,8 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import BarChart from "./BarChart";
 import { GradesInfoCard } from "./GradesInfoCard";
 import ProfessorRating from "./ProfessorRating";
-import { Star, Search } from "lucide-react";
-import { Rampart_One } from "next/font/google";
+import Image from "next/image";
 
 // Map Tailwind CSS classes to hex codes if needed
 const tailwindColors: { [key: string]: string } = {
@@ -76,7 +75,7 @@ const StatsCard = ({
               className="ml-[5%] text-white hover:text-gray-300 transition-colors"
               title={`View ${value} on Rate My Professor`}
             >
-              <img
+              <Image
                 src="rmp.svg"
                 alt="RMP"
                 width="30"
@@ -108,6 +107,9 @@ const StatsCard = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showInfoBox]);
+
+  // Check if multiple professors are selected
+  const isComparingMode = selectedItems.size > 1;
 
   return (
     <div className="w-full lg:w-2/3 mt-10 mx-auto relative">
@@ -268,7 +270,8 @@ const StatsCard = ({
           )}
           {/* Pass the grades and colors to the BarChart */}
           <BarChart grades={aggregatedData} colors={colorClasses} />
-          {selectedProfessor && (
+          {/* Only show the professor rating if it's not in comparing mode */}
+          {!isComparingMode && selectedProfessor && (
             <ProfessorRating professorName={selectedProfessor} />
           )}
         </div>
