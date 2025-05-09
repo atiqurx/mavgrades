@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Loader2, AlertCircle } from "lucide-react";
 
 interface ProfessorRatingProps {
   professorName: string;
@@ -38,11 +39,23 @@ const ProfessorRating: React.FC<ProfessorRatingProps> = ({ professorName }) => {
   }, [professorName]);
 
   if (loading) {
-    return <p>Loading Professor Rating...</p>;
+    return (
+      <div className="flex items-center justify-center h-32">
+        <Loader2 className="animate-spin h-8 w-8 text-blue-500 mr-3" />
+        <span className="text-lg text-white">Loading professor rating…</span>
+      </div>
+    );
   }
 
   if (!ratingData) {
-    return <p>No RMP data available for this professor.</p>;
+    return (
+      <div className="flex flex-col items-center justify-center h-32 text-center">
+        <AlertCircle className="h-8 w-8 text-gray-400 mb-2" />
+        <span className="text-white">
+          No RateMyProfessor data found for this instructor.
+        </span>
+      </div>
+    );
   }
 
   return (
