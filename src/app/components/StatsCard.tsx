@@ -3,6 +3,7 @@ import BarChart from "./BarChart";
 import { GradesInfoCard } from "./GradesInfoCard";
 import ProfessorRating from "./ProfessorRating";
 import Image from "next/image";
+import ReviewList from "./ReviewList";
 
 // Map Tailwind CSS classes to hex codes if needed
 const tailwindColors: { [key: string]: string } = {
@@ -274,6 +275,14 @@ const StatsCard = ({
           {!isComparingMode && selectedProfessor && (
             <ProfessorRating professorName={selectedProfessor} />
           )}
+          <ReviewList
+            course={
+              aggregatedData[0]?.subject_id && aggregatedData[0]?.course_number
+                ? `${aggregatedData[0].subject_id} ${aggregatedData[0].course_number}`
+                : null
+            }
+            professor={selectedProfessor ?? null}
+          />
         </div>
       ) : (
         <div className="bg-gray-200 bg-opacity-10 rounded-lg shadow-md p-4 text-center">
