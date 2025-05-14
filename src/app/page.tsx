@@ -1,9 +1,12 @@
+"use client"; // Needed to use React hooks
+
 import Head from "next/head";
 import { Poppins, Montserrat } from "next/font/google";
 import SearchBar from "./components/SearchBar";
 import { BsQuestionCircle } from "react-icons/bs";
 import Link from "next/link";
 
+import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -18,8 +21,45 @@ const montserrat = Montserrat({
 });
 
 export default function Home() {
+  const user = useUser();
+  const supabase = useSupabaseClient();
+
   return (
     <>
+      {/* Fixed container for auth buttons and FAQ */}
+      <div className="fixed top-10 right-10 flex items-center space-x-4 z-50">
+        {/* Auth buttons */}
+        {!user ? (
+          <>
+            <Link href="/auth">
+              <button className="px-3 py-1 bg-blue-600 rounded hover:bg-blue-700 text-white text-sm">
+                Sign In / Sign Up
+              </button>
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link href="/profile" aria-label="profile">
+              <button className="px-3 py-1 bg-gray-700 rounded hover:bg-gray-800 text-white text-sm">
+                Profile
+              </button>
+            </Link>
+            <button
+              onClick={() => supabase.auth.signOut()}
+              className="px-3 py-1 bg-red-600 rounded hover:bg-red-700 text-white text-sm"
+            >
+              Sign Out
+            </button>
+          </>
+        )}
+
+        {/* FAQ icon */}
+        <Link href="/faq" aria-label="faq">
+          <BsQuestionCircle className="text-2xl cursor-pointer mr-4 mt-1 text-gray-300 hover:text-white" />
+        </Link>
+      </div>
+
+      {/* Main content */}
       <div className="flex flex-col items-center justify-center min-h-screen text-white px-4 lg:px-24">
         <Head>
           <title>MavGrades</title>
@@ -53,11 +93,6 @@ export default function Home() {
               Enjoy your course registration experience!
             </p>
           </div>
-          <Link href="/faq" aria-label="faq">
-            <BsQuestionCircle
-              className="fixed top-10 right-10 text-2xl cursor-pointer mr-4 mt-1 text-gray-300"
-            />
-          </Link>
         </div>
 
         <div className="absolute bottom-4 left-0 right-0 text-center text-xs text-gray-400">
