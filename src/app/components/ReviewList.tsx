@@ -91,7 +91,7 @@ export default function ReviewList({ course, professor }: ReviewListProps) {
                   key={review.id}
                   className="bg-gray-100 bg-opacity-10 px-4 py-6 rounded-md"
                 >
-                  <div className="grid grid-cols-2 grid-cols-[10%,85%] gap-x-6">
+                  <div className="grid grid-cols-1 md:grid-cols-[10%,85%] gap-x-6 gap-y-6">
                     {/* Quality & Difficulty */}
                     <div className="space-y-4">
                       <div>
@@ -131,25 +131,34 @@ export default function ReviewList({ course, professor }: ReviewListProps) {
                       {/* Info */}
                       <div className="text-md text-gray-200 flex flex-wrap gap-x-4 gap-y-1 mb-4">
                         <span>
-                          For Credit: <span className="font-bold">
+                          For Credit:{" "}
+                          <span className="font-bold">
                             {review.taken_for_credit ? "Yes" : "No"}
                           </span>
                         </span>
                         <span>
-                          Attendance:{" "} <span className="font-bold">
+                          Attendance:{" "}
+                          <span className="font-bold">
                             {review.attendance_mandatory
                               ? "Mandatory"
                               : "Optional"}
                           </span>
                         </span>
                         <span>
-                          Would Take Again:  <span className="font-bold">
+                          Would Take Again:{" "}
+                          <span className="font-bold">
                             {review.take_again ? "Yes" : "No"}
                           </span>
                         </span>
-                        <span>Grade: <span className="font-bold">{review.grade_received}</span></span>
                         <span>
-                          Textbook: <span className="font-bold">
+                          Grade:{" "}
+                          <span className="font-bold">
+                            {review.grade_received}
+                          </span>
+                        </span>
+                        <span>
+                          Textbook:{" "}
+                          <span className="font-bold">
                             {review.used_textbooks ? "Yes" : "N/A"}
                           </span>
                         </span>
