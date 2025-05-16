@@ -191,18 +191,20 @@ export default function ReviewList({ course, professor }: ReviewListProps) {
         )}
       </div>
 
-      <button
-        onClick={() =>
-          router.push(
-            `/add-review?course=${encodeURIComponent(
-              course
-            )}&professor=${encodeURIComponent(professor)}`
-          )
-        }
-        className="mt-4 px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 text-white font-semibold"
-      >
-        Add Review
-      </button>
+      <div className="flex justify-end mt-4">
+        <button
+          onClick={() =>
+            router.push(
+              `/add-review?course=${encodeURIComponent(
+                course
+              )}&professor=${encodeURIComponent(professor)}`
+            )
+          }
+          className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-400 text-white font-semibold"
+        >
+          Add Review
+        </button>
+      </div>
     </div>
   );
 }
