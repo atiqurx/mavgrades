@@ -1,14 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function AuthForm() {
   const supabaseClient = useSupabaseClient();
+  const user = useUser();
+  const router = useRouter();
   const [authView, setAuthView] = useState<"sign_in" | "sign_up">("sign_in");
+
+  // Redirect to home as soon as we have a logged-in user
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user, router]);
 
   return (
     <div
@@ -32,17 +42,27 @@ export default function AuthForm() {
 
         <Auth
           supabaseClient={supabaseClient}
-          appearance={{ theme: ThemeSupa }}
+          appearance={{
+            theme: ThemeSupa,
+            variables: {
+              default: {
+                colors: {
+                  inputText: "#FFFFFF", // make typed text white
+                  inputLabelText: "#FFFFFF", // make the floating labels white
+                  inputPlaceholder: "#BBBBBB", // lighter placeholder color
+                },
+              },
+            },
+          }}
           providers={[]} // add OAuth if needed
           view={authView}
-          // Removed onViewChange as it is not a valid prop
           redirectTo={window.location.origin}
-          magicLink={false} // disable magic link, use password auth
+          magicLink={false}
         />
 
         <button
           onClick={() =>
-            setAuthView(authView === "sign_in" ? "sign_up" : "sign_in")
+            setAuthView((v) => (v === "sign_in" ? "sign_up" : "sign_in"))
           }
           className="mt-6 block mx-auto text-blue-400 hover:text-blue-500 text-sm underline"
         >
