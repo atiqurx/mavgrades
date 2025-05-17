@@ -40,7 +40,7 @@ export default function ReviewList({ course, professor }: ReviewListProps) {
     const fetchReviews = async () => {
       try {
         const { data, error } = await supabase
-          .from<Review>("reviews")
+          .from("reviews")
           .select("*")
           .eq("course_code", course)
           .eq("professor_name", professor)

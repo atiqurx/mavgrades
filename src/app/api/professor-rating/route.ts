@@ -44,7 +44,7 @@ async function getDatabase() {
 // Data‑access helper (with caching + logging)                   
 async function getProfessorData(professorName: string) {
   if (cache.has(professorName)) {
-    console.log(`[CACHE] hit: "${professorName}"`);
+    // console.log(`[CACHE] hit: "${professorName}"`);
     return cache.get(professorName);
   }
 
