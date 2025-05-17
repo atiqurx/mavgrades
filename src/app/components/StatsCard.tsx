@@ -273,16 +273,19 @@ const StatsCard = ({
           <BarChart grades={aggregatedData} colors={colorClasses} />
           {/* Only show the professor rating if it's not in comparing mode */}
           {!isComparingMode && selectedProfessor && (
-            <ProfessorRating professorName={selectedProfessor} />
+            <div>
+              <ProfessorRating professorName={selectedProfessor} />
+              <ReviewList
+                course={
+                  aggregatedData[0]?.subject_id && aggregatedData[0]?.course_number
+                    ? `${aggregatedData[0].subject_id} ${aggregatedData[0].course_number}`
+                    : null
+                }
+                professor={selectedProfessor ?? null}
+              />
+            </div>
           )}
-          <ReviewList
-            course={
-              aggregatedData[0]?.subject_id && aggregatedData[0]?.course_number
-                ? `${aggregatedData[0].subject_id} ${aggregatedData[0].course_number}`
-                : null
-            }
-            professor={selectedProfessor ?? null}
-          />
+          
         </div>
       ) : (
         <div className="bg-gray-200 bg-opacity-10 rounded-lg shadow-md p-4 text-center">
