@@ -318,6 +318,34 @@ export default function AddReview() {
             >
               Write a Review *
             </label>
+            {/* GUIDELINES */}
+            <div className="bg-gray-200 bg-opacity-10 p-4 rounded-lg mb-6">
+              <h2 className="text-xl font-semibold mb-2">
+                Please follow these guidelines:
+              </h2>
+              <ul className="list-disc list-inside space-y-1 text-gray-200">
+                <li>Only review courses you’ve actually taken.</li>
+                <li>
+                  Be respectful and professional; no profanity or personal
+                  attacks.
+                </li>
+                <li>
+                  Keep feedback constructive—focus on teaching style, clarity,
+                  workload, etc.
+                </li>
+                <li>
+                  Stick to facts and your own experience; don’t speculate.
+                </li>
+                <li>
+                  No self-promotion or advertising—reviews are about the
+                  course/professor only.
+                </li>
+                <li>
+                  Reviews may be removed if they
+                  violate guidelines.
+                </li>
+              </ul>
+            </div>
             <textarea
               id="reviewText"
               name="reviewText"
@@ -325,7 +353,7 @@ export default function AddReview() {
               maxLength={350}
               value={formData.reviewText}
               onChange={handleChange}
-              placeholder="Discuss the professor's professional abilities including teaching style and ability to convey the material clearly"
+              placeholder="What do you want other students to know about this professor and this course?"
               className="w-full p-3 rounded bg-gray-800 border border-gray-200 bg-opacity-10 resize-none focus:outline-none focus:ring-0"
               required
             />
