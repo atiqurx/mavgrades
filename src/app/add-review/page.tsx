@@ -140,14 +140,14 @@ export default function AddReview() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">
+    <div className="min-h-screen bg-gray-400 bg-opacity-10 rounded-xl text-white p-8 max-w-3xl mx-auto my-20 shadow-md">
+      <h1 className="text-3xl font-bold mb-6 mt-4">
         Add Review for {course} - {professor}
       </h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Course Code */}
         <div>
-          <label className="block font-semibold mb-1" htmlFor="courseCode">
+          <label className="text-lg block font-semibold mb-2" htmlFor="courseCode">
             Select Course Code *
           </label>
           <input
@@ -156,9 +156,9 @@ export default function AddReview() {
             name="courseCode"
             value={formData.courseCode}
             readOnly
-            className="w-full p-2 rounded bg-gray-800 border border-gray-700"
+            className="w-full p-2 rounded bg-gray-100 bg-opacity-10 border border-white-200 focus:outline-none focus:ring-0"
           />
-          <label className="inline-flex items-center mt-2 cursor-pointer">
+          <label className="inline-flex items-center mt-4 cursor-pointer text-lg">
             <input
               type="checkbox"
               name="onlineCourse"
@@ -172,7 +172,7 @@ export default function AddReview() {
 
         {/* Quality Rating */}
         <div>
-          <label className="block font-semibold mb-1">
+          <label className="block font-semibold mb-2 text-lg">
             Rate your professor *
           </label>
           <RatingBar
@@ -180,14 +180,14 @@ export default function AddReview() {
             onChange={(val) =>
               setFormData((prev) => ({ ...prev, qualityRating: val }))
             }
-            minLabel="1 - Awful"
-            maxLabel="5 - Awesome"
+            minLabel="(Awful) 1"
+            maxLabel="5 (Awesome)"
           />
         </div>
 
         {/* Difficulty Rating */}
         <div>
-          <label className="block font-semibold mb-1">
+          <label className="block font-semibold mb-2 text-lg">
             How difficult was this professor? *
           </label>
           <RatingBar
@@ -195,8 +195,8 @@ export default function AddReview() {
             onChange={(val) =>
               setFormData((prev) => ({ ...prev, difficultyRating: val }))
             }
-            minLabel="1 - Very Easy"
-            maxLabel="5 - Very Difficult"
+            minLabel="(Very Easy) 1"
+            maxLabel="5 (Very Difficult)"
           />
         </div>
 
@@ -250,7 +250,7 @@ export default function AddReview() {
 
         {/* Grade received */}
         <div>
-          <label className="block font-semibold mb-1" htmlFor="gradeReceived">
+          <label className="block font-semibold mb-2 text-lg" htmlFor="gradeReceived">
             Select grade received *
           </label>
           <select
@@ -258,11 +258,11 @@ export default function AddReview() {
             name="gradeReceived"
             value={formData.gradeReceived}
             onChange={handleChange}
-            className="w-full p-2 rounded bg-gray-800 border border-gray-700"
+            className="w-full p-2 rounded bg-gray-800 border border-gray-200 bg-opacity-10 focus:outline-none focus:ring-0"
             required
           >
             <option value="">Select grade</option>
-            {["A", "B", "C", "D", "F", "P", "W", "Q"].map((grade) => (
+            {["A", "B", "C", "D", "F", "P", "W", "Q", "N/A"].map((grade) => (
               <option key={grade} value={grade}>
                 {grade}
               </option>
@@ -272,7 +272,7 @@ export default function AddReview() {
 
         {/* Tags */}
         <div>
-          <label className="block font-semibold mb-2">
+          <label className="block font-semibold mb-2  text-lg">
             Select up to 3 tags
           </label>
           <div className="flex flex-wrap gap-2">
@@ -281,10 +281,10 @@ export default function AddReview() {
                 type="button"
                 key={tag}
                 onClick={() => toggleTag(tag)}
-                className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                className={`px-3 py-1 rounded-lg text-sm font-medium ${
                   formData.tags.includes(tag)
                     ? "bg-blue-600 text-white"
-                    : "bg-gray-600 text-gray-300"
+                    : "bg-gray-200 bg-opacity-20 text-white"
                 }`}
               >
                 {tag}
@@ -295,7 +295,7 @@ export default function AddReview() {
 
         {/* Review Text */}
         <div>
-          <label className="block font-semibold mb-1" htmlFor="reviewText">
+          <label className="block font-semibold mb-2 text-lg" htmlFor="reviewText">
             Write a Review *
           </label>
           <textarea
@@ -306,7 +306,7 @@ export default function AddReview() {
             value={formData.reviewText}
             onChange={handleChange}
             placeholder="Discuss the professor's professional abilities including teaching style and ability to convey the material clearly"
-            className="w-full p-3 rounded bg-gray-800 border border-gray-700 resize-none"
+            className="w-full p-3 rounded bg-gray-800 border border-gray-200 bg-opacity-10 resize-none focus:outline-none focus:ring-0"
             required
           />
           <p className="text-sm text-gray-400 mt-1 text-right">
@@ -321,7 +321,7 @@ export default function AddReview() {
           disabled={submitting}
           className="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded text-white font-semibold disabled:opacity-50"
         >
-          {submitting ? "Submitting..." : "Submit Rating"}
+          {submitting ? "Submitting..." : "Submit Review"}
         </button>
       </form>
     </div>
@@ -348,8 +348,8 @@ function RatingBar({
           <div
             key={star}
             onClick={() => onChange(star)}
-            className={`w-8 h-8 cursor-pointer rounded ${
-              value >= star ? "bg-blue-600" : "bg-gray-600"
+            className={`w-6 h-6 mr-2 cursor-pointer rounded-full ${
+              value >= star ? "bg-blue-400" : "bg-gray-200 bg-opacity-30"
             }`}
           />
         ))}
@@ -375,7 +375,7 @@ function RadioGroup({
 }) {
   return (
     <fieldset>
-      <legend className="block font-semibold mb-1">{label}</legend>
+      <legend className="block font-semibold mb-2 text-lg">{label}</legend>
       <div className="flex gap-6">
         {options.map(({ label, value: val }) => (
           <label
