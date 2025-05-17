@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import { IoArrowBack } from "react-icons/io5";
 
 const TAG_OPTIONS = [
   "Tough Grader",
@@ -140,191 +141,211 @@ export default function AddReview() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-400 bg-opacity-10 rounded-xl text-white p-8 max-w-3xl mx-auto my-20 shadow-md">
-      <h1 className="text-3xl font-bold mb-6 mt-4">
-        Add Review for {course} - {professor}
-      </h1>
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Course Code */}
-        <div>
-          <label className="text-lg block font-semibold mb-2" htmlFor="courseCode">
-            Select Course Code *
-          </label>
-          <input
-            type="text"
-            id="courseCode"
-            name="courseCode"
-            value={formData.courseCode}
-            readOnly
-            className="w-full p-2 rounded bg-gray-100 bg-opacity-10 border border-white-200 focus:outline-none focus:ring-0"
-          />
-          <label className="inline-flex items-center mt-4 cursor-pointer text-lg">
+    <>
+      {/* Back Button  */}
+      <button
+        onClick={() => router.back()}
+        className="absolute top-14 left-20 z-50 p-2  text-gray-200"
+        aria-label="Go back"
+      >
+        <IoArrowBack size={24} />
+      </button>
+
+      <div className="min-h-screen bg-gray-400 bg-opacity-10 rounded-xl text-white p-8 max-w-3xl mx-auto my-20 shadow-md">
+        <h1 className="text-3xl font-bold mb-6 mt-4">
+          Add Review for {course} - {professor}
+        </h1>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Course Code */}
+          <div>
+            <label
+              className="text-lg block font-semibold mb-2"
+              htmlFor="courseCode"
+            >
+              Select Course Code *
+            </label>
             <input
-              type="checkbox"
-              name="onlineCourse"
-              checked={formData.onlineCourse}
-              onChange={handleChange}
-              className="mr-2"
+              type="text"
+              id="courseCode"
+              name="courseCode"
+              value={formData.courseCode}
+              readOnly
+              className="w-full p-2 rounded bg-gray-100 bg-opacity-10 border border-white-200 focus:outline-none focus:ring-0"
             />
-            <span>This is an online course</span>
-          </label>
-        </div>
-
-        {/* Quality Rating */}
-        <div>
-          <label className="block font-semibold mb-2 text-lg">
-            Rate your professor *
-          </label>
-          <RatingBar
-            value={formData.qualityRating}
-            onChange={(val) =>
-              setFormData((prev) => ({ ...prev, qualityRating: val }))
-            }
-            minLabel="(Awful) 1"
-            maxLabel="5 (Awesome)"
-          />
-        </div>
-
-        {/* Difficulty Rating */}
-        <div>
-          <label className="block font-semibold mb-2 text-lg">
-            How difficult was this professor? *
-          </label>
-          <RatingBar
-            value={formData.difficultyRating}
-            onChange={(val) =>
-              setFormData((prev) => ({ ...prev, difficultyRating: val }))
-            }
-            minLabel="(Very Easy) 1"
-            maxLabel="5 (Very Difficult)"
-          />
-        </div>
-
-        {/* Would you take again? */}
-        <RadioGroup
-          label="Would you take this professor again? *"
-          name="takeAgain"
-          value={formData.takeAgain}
-          options={[
-            { label: "Yes", value: "yes" },
-            { label: "No", value: "no" },
-          ]}
-          onChange={handleChange}
-        />
-
-        {/* Credit taken */}
-        <RadioGroup
-          label="Was this class taken for credit? *"
-          name="credit"
-          value={formData.credit}
-          options={[
-            { label: "Yes", value: "yes" },
-            { label: "No", value: "no" },
-          ]}
-          onChange={handleChange}
-        />
-
-        {/* Textbooks used */}
-        <RadioGroup
-          label="Did this professor use textbooks? *"
-          name="textbooksUsed"
-          value={formData.textbooksUsed}
-          options={[
-            { label: "Yes", value: "yes" },
-            { label: "No", value: "no" },
-          ]}
-          onChange={handleChange}
-        />
-
-        {/* Attendance mandatory */}
-        <RadioGroup
-          label="Was attendance mandatory? *"
-          name="attendanceMandatory"
-          value={formData.attendanceMandatory}
-          options={[
-            { label: "Yes", value: "yes" },
-            { label: "No", value: "no" },
-          ]}
-          onChange={handleChange}
-        />
-
-        {/* Grade received */}
-        <div>
-          <label className="block font-semibold mb-2 text-lg" htmlFor="gradeReceived">
-            Select grade received *
-          </label>
-          <select
-            id="gradeReceived"
-            name="gradeReceived"
-            value={formData.gradeReceived}
-            onChange={handleChange}
-            className="w-full p-2 rounded bg-gray-800 border border-gray-200 bg-opacity-10 focus:outline-none focus:ring-0"
-            required
-          >
-            <option value="">Select grade</option>
-            {["A", "B", "C", "D", "F", "P", "W", "Q", "N/A"].map((grade) => (
-              <option key={grade} value={grade}>
-                {grade}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Tags */}
-        <div>
-          <label className="block font-semibold mb-2  text-lg">
-            Select up to 3 tags
-          </label>
-          <div className="flex flex-wrap gap-2">
-            {TAG_OPTIONS.map((tag) => (
-              <button
-                type="button"
-                key={tag}
-                onClick={() => toggleTag(tag)}
-                className={`px-3 py-1 rounded-lg text-sm font-medium ${
-                  formData.tags.includes(tag)
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-200 bg-opacity-20 text-white"
-                }`}
-              >
-                {tag}
-              </button>
-            ))}
+            <label className="inline-flex items-center mt-4 cursor-pointer text-lg">
+              <input
+                type="checkbox"
+                name="onlineCourse"
+                checked={formData.onlineCourse}
+                onChange={handleChange}
+                className="mr-2"
+              />
+              <span>This is an online course</span>
+            </label>
           </div>
-        </div>
 
-        {/* Review Text */}
-        <div>
-          <label className="block font-semibold mb-2 text-lg" htmlFor="reviewText">
-            Write a Review *
-          </label>
-          <textarea
-            id="reviewText"
-            name="reviewText"
-            rows={6}
-            maxLength={350}
-            value={formData.reviewText}
+          {/* Quality Rating */}
+          <div>
+            <label className="block font-semibold mb-2 text-lg">
+              Rate your professor *
+            </label>
+            <RatingBar
+              value={formData.qualityRating}
+              onChange={(val) =>
+                setFormData((prev) => ({ ...prev, qualityRating: val }))
+              }
+              minLabel="(Awful) 1"
+              maxLabel="5 (Awesome)"
+            />
+          </div>
+
+          {/* Difficulty Rating */}
+          <div>
+            <label className="block font-semibold mb-2 text-lg">
+              How difficult was this professor? *
+            </label>
+            <RatingBar
+              value={formData.difficultyRating}
+              onChange={(val) =>
+                setFormData((prev) => ({ ...prev, difficultyRating: val }))
+              }
+              minLabel="(Very Easy) 1"
+              maxLabel="5 (Very Difficult)"
+            />
+          </div>
+
+          {/* Would you take again? */}
+          <RadioGroup
+            label="Would you take this professor again? *"
+            name="takeAgain"
+            value={formData.takeAgain}
+            options={[
+              { label: "Yes", value: "yes" },
+              { label: "No", value: "no" },
+            ]}
             onChange={handleChange}
-            placeholder="Discuss the professor's professional abilities including teaching style and ability to convey the material clearly"
-            className="w-full p-3 rounded bg-gray-800 border border-gray-200 bg-opacity-10 resize-none focus:outline-none focus:ring-0"
-            required
           />
-          <p className="text-sm text-gray-400 mt-1 text-right">
-            {formData.reviewText.length}/350
-          </p>
-        </div>
 
-        {/* Error and submit */}
-        {error && <p className="text-red-500 font-semibold">{error}</p>}
-        <button
-          type="submit"
-          disabled={submitting}
-          className="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded text-white font-semibold disabled:opacity-50"
-        >
-          {submitting ? "Submitting..." : "Submit Review"}
-        </button>
-      </form>
-    </div>
+          {/* Credit taken */}
+          <RadioGroup
+            label="Was this class taken for credit? *"
+            name="credit"
+            value={formData.credit}
+            options={[
+              { label: "Yes", value: "yes" },
+              { label: "No", value: "no" },
+            ]}
+            onChange={handleChange}
+          />
+
+          {/* Textbooks used */}
+          <RadioGroup
+            label="Did this professor use textbooks? *"
+            name="textbooksUsed"
+            value={formData.textbooksUsed}
+            options={[
+              { label: "Yes", value: "yes" },
+              { label: "No", value: "no" },
+            ]}
+            onChange={handleChange}
+          />
+
+          {/* Attendance mandatory */}
+          <RadioGroup
+            label="Was attendance mandatory? *"
+            name="attendanceMandatory"
+            value={formData.attendanceMandatory}
+            options={[
+              { label: "Yes", value: "yes" },
+              { label: "No", value: "no" },
+            ]}
+            onChange={handleChange}
+          />
+
+          {/* Grade received */}
+          <div>
+            <label
+              className="block font-semibold mb-2 text-lg"
+              htmlFor="gradeReceived"
+            >
+              Select grade received *
+            </label>
+            <select
+              id="gradeReceived"
+              name="gradeReceived"
+              value={formData.gradeReceived}
+              onChange={handleChange}
+              className="w-full p-2 rounded bg-gray-800 border border-gray-200 bg-opacity-10 focus:outline-none focus:ring-0"
+              required
+            >
+              <option value="">Select grade</option>
+              {["A", "B", "C", "D", "F", "P", "W", "Q", "N/A"].map((grade) => (
+                <option key={grade} value={grade}>
+                  {grade}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Tags */}
+          <div>
+            <label className="block font-semibold mb-2  text-lg">
+              Select up to 3 tags
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {TAG_OPTIONS.map((tag) => (
+                <button
+                  type="button"
+                  key={tag}
+                  onClick={() => toggleTag(tag)}
+                  className={`px-3 py-1 rounded-lg text-sm font-medium ${
+                    formData.tags.includes(tag)
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-200 bg-opacity-20 text-white"
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Review Text */}
+          <div>
+            <label
+              className="block font-semibold mb-2 text-lg"
+              htmlFor="reviewText"
+            >
+              Write a Review *
+            </label>
+            <textarea
+              id="reviewText"
+              name="reviewText"
+              rows={6}
+              maxLength={350}
+              value={formData.reviewText}
+              onChange={handleChange}
+              placeholder="Discuss the professor's professional abilities including teaching style and ability to convey the material clearly"
+              className="w-full p-3 rounded bg-gray-800 border border-gray-200 bg-opacity-10 resize-none focus:outline-none focus:ring-0"
+              required
+            />
+            <p className="text-sm text-gray-400 mt-1 text-right">
+              {formData.reviewText.length}/350
+            </p>
+          </div>
+
+          {/* Error and submit */}
+          {error && <p className="text-red-500 font-semibold">{error}</p>}
+          <button
+            type="submit"
+            disabled={submitting}
+            className="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded text-white font-semibold disabled:opacity-50"
+          >
+            {submitting ? "Submitting..." : "Submit Review"}
+          </button>
+        </form>
+      </div>
+    </>
   );
 }
 
