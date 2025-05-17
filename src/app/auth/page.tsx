@@ -1,9 +1,13 @@
-import AuthForm from "../components/AuthForm";
+"use client";
 
-export default function AuthPage() {
-  return (
-    <div>
-      <AuthForm />
-    </div>
-  );
+import dynamic from "next/dynamic";
+
+// Disable SSR 
+const AuthForm = dynamic(
+  () => import("../components/AuthForm"),
+  { ssr: false }
+);
+
+export default function Page() {
+  return <AuthForm />;
 }
