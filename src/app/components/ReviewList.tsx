@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 
 interface Review {
   id: number;
@@ -28,6 +28,7 @@ interface ReviewListProps {
 export default function ReviewList({ course, professor }: ReviewListProps) {
   const supabase = useSupabaseClient();
   const router = useRouter();
+  const user = useUser();
 
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
@@ -193,13 +194,17 @@ export default function ReviewList({ course, professor }: ReviewListProps) {
 
       <div className="flex justify-end mt-4">
         <button
-          onClick={() =>
-            router.push(
-              `/add-review?course=${encodeURIComponent(
-                course
-              )}&professor=${encodeURIComponent(professor)}`
-            )
-          }
+          onClick={() => {
+            if (user) {
+              router.push(
+                `/add-review?course=${encodeURIComponent(
+                  course
+                )}&professor=${encodeURIComponent(professor)}`
+              );
+            } else {
+              router.push("/auth");
+            }
+          }}
           className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-400 text-white font-semibold"
         >
           Add Review
