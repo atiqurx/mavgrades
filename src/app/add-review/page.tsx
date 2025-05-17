@@ -145,17 +145,21 @@ export default function AddReview() {
       {/* Back Button  */}
       <button
         onClick={() => router.back()}
-        className="absolute top-14 left-20 z-50 p-2  text-gray-200"
+        className="absolute left-2 top-2 sm:left-20 sm:top-14 z-50 p-2 text-gray-200"
         aria-label="Go back"
       >
         <IoArrowBack size={24} />
       </button>
 
-      <div className="min-h-screen bg-gray-400 bg-opacity-10 rounded-xl text-white p-8 max-w-3xl mx-auto my-20 shadow-md">
-        <h1 className="text-3xl font-bold mb-6 mt-4">
-          Add Review for {course} - {professor}
+      <div
+        className="min-h-screen bg-gray-400 bg-opacity-10 rounded-none sm:rounded-xl text-white
+                  p-4 sm:p-8 max-w-full sm:max-w-3xl mx-auto my-0 sm:my-20 shadow-md"
+      >
+        <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 mt-8 sm:mt-4 text-center sm:text-left">
+          Add Review for {course} – {professor}
         </h1>
-        <form onSubmit={handleSubmit} className="space-y-6">
+
+        <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
           {/* Course Code */}
           <div>
             <label
@@ -170,9 +174,10 @@ export default function AddReview() {
               name="courseCode"
               value={formData.courseCode}
               readOnly
-              className="w-full p-2 rounded bg-gray-100 bg-opacity-10 border border-white-200 focus:outline-none focus:ring-0"
+              className="w-full p-2 rounded bg-gray-100 bg-opacity-10 border border-gray-200
+                     focus:outline-none focus:ring-0"
             />
-            <label className="inline-flex items-center mt-4 cursor-pointer text-lg">
+            <label className="inline-flex items-center mt-3 cursor-pointer text-lg">
               <input
                 type="checkbox"
                 name="onlineCourse"
@@ -214,55 +219,51 @@ export default function AddReview() {
             />
           </div>
 
-          {/* Would you take again? */}
-          <RadioGroup
-            label="Would you take this professor again? *"
-            name="takeAgain"
-            value={formData.takeAgain}
-            options={[
-              { label: "Yes", value: "yes" },
-              { label: "No", value: "no" },
-            ]}
-            onChange={handleChange}
-          />
+          {/* Radio Groups */}
+          <div className="space-y-4 sm:space-y-6">
+            <RadioGroup
+              label="Would you take this professor again? *"
+              name="takeAgain"
+              value={formData.takeAgain}
+              options={[
+                { label: "Yes", value: "yes" },
+                { label: "No", value: "no" },
+              ]}
+              onChange={handleChange}
+            />
+            <RadioGroup
+              label="Was this class taken for credit? *"
+              name="credit"
+              value={formData.credit}
+              options={[
+                { label: "Yes", value: "yes" },
+                { label: "No", value: "no" },
+              ]}
+              onChange={handleChange}
+            />
+            <RadioGroup
+              label="Did this professor use textbooks? *"
+              name="textbooksUsed"
+              value={formData.textbooksUsed}
+              options={[
+                { label: "Yes", value: "yes" },
+                { label: "No", value: "no" },
+              ]}
+              onChange={handleChange}
+            />
+            <RadioGroup
+              label="Was attendance mandatory? *"
+              name="attendanceMandatory"
+              value={formData.attendanceMandatory}
+              options={[
+                { label: "Yes", value: "yes" },
+                { label: "No", value: "no" },
+              ]}
+              onChange={handleChange}
+            />
+          </div>
 
-          {/* Credit taken */}
-          <RadioGroup
-            label="Was this class taken for credit? *"
-            name="credit"
-            value={formData.credit}
-            options={[
-              { label: "Yes", value: "yes" },
-              { label: "No", value: "no" },
-            ]}
-            onChange={handleChange}
-          />
-
-          {/* Textbooks used */}
-          <RadioGroup
-            label="Did this professor use textbooks? *"
-            name="textbooksUsed"
-            value={formData.textbooksUsed}
-            options={[
-              { label: "Yes", value: "yes" },
-              { label: "No", value: "no" },
-            ]}
-            onChange={handleChange}
-          />
-
-          {/* Attendance mandatory */}
-          <RadioGroup
-            label="Was attendance mandatory? *"
-            name="attendanceMandatory"
-            value={formData.attendanceMandatory}
-            options={[
-              { label: "Yes", value: "yes" },
-              { label: "No", value: "no" },
-            ]}
-            onChange={handleChange}
-          />
-
-          {/* Grade received */}
+          {/* Grade Received */}
           <div>
             <label
               className="block font-semibold mb-2 text-lg"
@@ -320,10 +321,10 @@ export default function AddReview() {
             </label>
             {/* GUIDELINES */}
             <div className="bg-gray-200 bg-opacity-10 p-4 rounded-lg mb-6">
-              <h2 className="text-xl font-semibold mb-2">
+              <h2 className="text-base sm:text-xl font-semibold mb-2">
                 Please follow these guidelines:
               </h2>
-              <ul className="list-disc list-inside space-y-1 text-gray-200">
+              <ul className="list-disc list-inside space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-200">
                 <li>Only review courses you’ve actually taken.</li>
                 <li>
                   Be respectful and professional; no profanity or personal
@@ -353,17 +354,20 @@ export default function AddReview() {
               maxLength={350}
               value={formData.reviewText}
               onChange={handleChange}
-              placeholder="What do you want other students to know about this professor and this course?"
-              className="w-full p-3 rounded bg-gray-800 border border-gray-200 bg-opacity-10 resize-none focus:outline-none focus:ring-0"
+              placeholder="What do you want other students to know about this professor and course?"
               required
+              className="w-full p-3 rounded bg-gray-800 border border-gray-200 bg-opacity-10
+                     resize-none focus:outline-none focus:ring-0"
             />
-            <p className="text-sm text-gray-400 mt-1 text-right">
+            <p className="text-xs sm:text-sm text-gray-400 mt-1 text-right">
               {formData.reviewText.length}/350
             </p>
           </div>
 
-          {/* Error and submit */}
-          {error && <p className="text-red-500 font-semibold">{error}</p>}
+          {/* Error & Submit */}
+          {error && (
+            <p className="text-sm text-red-500 font-semibold">{error}</p>
+          )}
           <button
             type="submit"
             disabled={submitting}
