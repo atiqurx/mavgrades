@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import { FiFlag } from "react-icons/fi";
 
 interface Review {
   id: number;
@@ -90,7 +91,7 @@ export default function ReviewList({ course, professor }: ReviewListProps) {
               return (
                 <li
                   key={review.id}
-                  className="bg-gray-100 bg-opacity-10 px-4 py-6 rounded-md"
+                  className="bg-gray-100 bg-opacity-10 px-4 py-6 rounded-md relative"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-[10%,85%] gap-x-6 gap-y-6">
                     {/* Quality & Difficulty */}
@@ -184,6 +185,16 @@ export default function ReviewList({ course, professor }: ReviewListProps) {
                         </div>
                       )}
                     </div>
+                    {/* Report Button */}
+                    <button
+                      onClick={() =>
+                        router.push(`/report-review?reviewId=${review.id}`)
+                      }
+                      className="absolute bottom-2 right-2 p-1 text-gray-400 hover:text-red-500"
+                      aria-label="Report this review"
+                    >
+                      <FiFlag size={20} />
+                    </button>
                   </div>
                 </li>
               );
