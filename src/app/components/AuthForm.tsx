@@ -19,20 +19,29 @@ export default function AuthForm() {
   const supabase = useSupabaseClient();
   const user = useUser();
   const router = useRouter();
-  const [mode, setMode] = useState<"sign_in" | "sign_up">("sign_in");
 
-  // Sign‐up fields + error
+  // Modes: sign_in | sign_up_step1 | sign_up_step2
+  const [mode, setMode] = useState<
+    "sign_in" | "sign_up_step1" | "sign_up_step2"
+  >("sign_in");
+
+  // Step1 signup fields + error
   const [suEmail, setSuEmail] = useState("");
   const [suPassword, setSuPassword] = useState("");
   const [suError, setSuError] = useState("");
 
-  // Redirect home when already signed in
+  // Step2 OTP field + error
+  const [otp, setOtp] = useState("");
+  const [otpError, setOtpError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  // If already signed in, go home
   useEffect(() => {
     if (user) router.push("/");
   }, [user, router]);
 
-  // Custom sign-up handler with domain check
-  const handleSignUp = async (e: React.FormEvent) => {
+  // STEP 1: request signup → send OTP email
+  async function handleSignUpStep1(e: React.FormEvent) {
     e.preventDefault();
     setSuError("");
     if (!suEmail.endsWith("@mavs.uta.edu")) {
@@ -43,12 +52,43 @@ export default function AuthForm() {
       setSuError("Password must be at least 6 characters.");
       return;
     }
+    setIsLoading(true);
     const { error } = await supabase.auth.signUp({
       email: suEmail,
       password: suPassword,
     });
-    if (error) setSuError(error.message);
-  };
+    setIsLoading(false);
+
+    if (error) {
+      setSuError(error.message);
+    } else {
+      // move to OTP confirmation
+      setMode("sign_up_step2");
+    }
+  }
+
+  // STEP 2: verify code
+  async function handleVerifyOtp(e: React.FormEvent) {
+    e.preventDefault();
+    setOtpError("");
+    if (otp.trim().length === 0) {
+      setOtpError("Enter the 6-digit code.");
+      return;
+    }
+    setIsLoading(true);
+    const { error } = await supabase.auth.verifyOtp({
+      token: otp.trim(),
+      type: "signup",
+      email: suEmail,
+    });
+    setIsLoading(false);
+
+    if (error) {
+      setOtpError(error.message);
+    } else {
+      router.push("/");
+    }
+  }
 
   return (
     <div
@@ -63,11 +103,17 @@ export default function AuthForm() {
 
       {/* Card */}
       <div className="w-full max-w-md bg-[#1e293b] rounded-lg p-8 shadow-lg text-gray-200">
+        {/* HEADER */}
         <h2 className="text-3xl font-extrabold mb-6 text-center text-gray-300">
-          {mode === "sign_in" ? "Sign In" : "Sign Up"}
+          {mode === "sign_in"
+            ? "Sign In"
+            : mode === "sign_up_step1"
+            ? "Sign Up"
+            : "Enter Verification Code"}
         </h2>
 
-        {mode === "sign_in" ? (
+        {/* SIGN IN (built-in UI) */}
+        {mode === "sign_in" && (
           <Auth
             supabaseClient={supabase}
             appearance={{
@@ -87,8 +133,11 @@ export default function AuthForm() {
             redirectTo={window.location.origin}
             magicLink={false}
           />
-        ) : (
-          <form onSubmit={handleSignUp} className="space-y-4">
+        )}
+
+        {/* SIGN UP STEP 1 */}
+        {mode === "sign_up_step1" && (
+          <form onSubmit={handleSignUpStep1} className="space-y-4">
             <input
               type="email"
               placeholder="you@mavs.uta.edu"
@@ -109,29 +158,59 @@ export default function AuthForm() {
             {suError && <p className="text-red-400 text-sm">{suError}</p>}
             <button
               type="submit"
-              className="w-full py-2 bg-green-600 hover:bg-green-700 rounded text-white font-semibold"
+              disabled={isLoading}
+              className="w-full py-2 bg-green-600 hover:bg-green-700 rounded text-white font-semibold disabled:opacity-50"
             >
-              Sign Up
+              {isLoading ? "Sending code…" : "Send verification code"}
             </button>
           </form>
         )}
 
-        {/* Toggle link */}
-        <button
-          onClick={() => {
-            setSuError("");
-            setMode((m) => (m === "sign_in" ? "sign_up" : "sign_in"));
-          }}
-          className="mt-6 block mx-auto text-blue-400 hover:text-blue-500 text-sm underline"
-        >
-          {mode === "sign_in"
-            ? "Don't have an account? Sign Up"
-            : "Already have an account? Sign In"}
-        </button>
+        {/* SIGN UP STEP 2: OTP */}
+        {mode === "sign_up_step2" && (
+          <form onSubmit={handleVerifyOtp} className="space-y-4">
+            <p className="text-sm text-gray-300">
+              We’ve sent a 6-digit code to <strong>{suEmail}</strong>.
+            </p>
+            <input
+              type="text"
+              placeholder="Enter code"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              className="w-full p-2 rounded bg-gray-800 text-white placeholder-gray-400"
+              required
+            />
+            {otpError && <p className="text-red-400 text-sm">{otpError}</p>}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-2 bg-green-600 hover:bg-green-700 rounded text-white font-semibold disabled:opacity-50"
+            >
+              {isLoading ? "Verifying…" : "Verify code"}
+            </button>
+          </form>
+        )}
 
-        <p className="mt-4 text-xs text-gray-400 text-center">
-          * A verification email will be sent on sign up.
-        </p>
+        {/* TOGGLE LINK */}
+        {mode !== "sign_up_step2" && (
+          <button
+            onClick={() =>
+              setMode((m) => (m === "sign_in" ? "sign_up_step1" : "sign_in"))
+            }
+            className="mt-6 block mx-auto text-blue-400 hover:text-blue-500 text-sm underline"
+          >
+            {mode === "sign_in"
+              ? "Don't have an account? Sign Up"
+              : "Already have an account? Sign In"}
+          </button>
+        )}
+
+        {/* FOOTER */}
+        {mode !== "sign_up_step2" && (
+          <p className="mt-4 text-xs text-gray-400 text-center">
+            * A verification email with a 6-digit code will be sent on sign up.
+          </p>
+        )}
       </div>
     </div>
   );
