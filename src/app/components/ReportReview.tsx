@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import { IoArrowBack } from "react-icons/io5";
 
 export default function ReportReviewPage() {
   const supabase = useSupabaseClient();
@@ -94,7 +95,7 @@ export default function ReportReviewPage() {
   // If reported, show a thank you message
   if (reported) {
     return (
-      <div className="max-w-lg mx-auto p-6 bg-green-800 rounded-lg text-white mt-12 text-center">
+      <div className="max-w-full sm:max-w-3xl mx-auto p-6 bg-green-800 rounded-lg text-white mt-12 text-center">
         <h1 className="text-2xl font-bold mb-2">Thank you!</h1>
         <p>Your report has been submitted.</p>
         <p className="mt-4 text-sm text-gray-200">Returning shortly…</p>
@@ -103,29 +104,39 @@ export default function ReportReviewPage() {
   }
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-gray-800 rounded-lg text-white mt-12">
-      <h1 className="text-2xl font-bold mb-4">Report Review</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <label className="block font-medium">
-          Why are you reporting this review?
-        </label>
-        <textarea
-          className="w-full p-3 bg-gray-700 rounded resize-none"
-          rows={6}
-          placeholder="Describe the issue…"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          disabled={saving}
-        />
-        {error && <p className="text-red-400">{error}</p>}
-        <button
-          type="submit"
-          disabled={saving}
-          className="w-full py-2 bg-red-600 hover:bg-red-700 rounded disabled:opacity-50"
-        >
-          {saving ? "Reporting…" : "Submit Report"}
-        </button>
-      </form>
-    </div>
+    <>
+      <button
+        onClick={() => router.back()}
+        className="absolute left-2 top-2 sm:left-20 sm:top-14 z-50 p-2 text-gray-200"
+        aria-label="Go back"
+      >
+        <IoArrowBack size={24} />
+      </button>
+
+      <div className="max-w-full sm:max-w-3xl mx-auto p-6 bg-gray-400 bg-opacity-10 rounded-lg text-white mt-16">
+        <h1 className="text-2xl font-bold mb-4">Report Review</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <label className="block font-medium">
+            Why are you reporting this review?
+          </label>
+          <textarea
+            className="w-full p-3 bg-gray-300 bg-opacity-10 rounded-md resize-none focus:outline-none focus:ring-0"
+            rows={6}
+            placeholder="Describe the issue…"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            disabled={saving}
+          />
+          {error && <p className="text-red-400">{error}</p>}
+          <button
+            type="submit"
+            disabled={saving}
+            className="w-full py-2 bg-red-600 hover:bg-red-700 rounded disabled:opacity-50"
+          >
+            {saving ? "Reporting…" : "Submit Report"}
+          </button>
+        </form>
+      </div>
+    </>
   );
 }
