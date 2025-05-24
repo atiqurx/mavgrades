@@ -9,16 +9,22 @@ export default function ReportReviewPage() {
   const user = useUser();
   const router = useRouter();
   const params = useSearchParams();
-  const reviewId = params.get("reviewId"); 
+  const reviewId = params.get("reviewId");
 
   const [text, setText] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [reported, setReported] = useState(false);
 
-  // Debug: log the raw reviewId
-  // useEffect(() => {
-  //   console.log("[ReportReviewPage] reviewId param =", reviewId);
-  // }, [reviewId]);
+  // After reporting, wait 2s then go back
+  useEffect(() => {
+    if (reported) {
+      const timer = setTimeout(() => {
+        router.back();
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [reported, router]);
 
   if (!reviewId) {
     return <p className="p-4 text-red-400">Invalid review ID.</p>;
@@ -81,9 +87,20 @@ export default function ReportReviewPage() {
       console.error("[Report] Update count error:", updateErr);
     }
 
-    // Redirect back
-    router.back();
+    // Redirect
+    setReported(true);
   };
+
+  // If reported, show a thank you message
+  if (reported) {
+    return (
+      <div className="max-w-lg mx-auto p-6 bg-green-800 rounded-lg text-white mt-12 text-center">
+        <h1 className="text-2xl font-bold mb-2">Thank you!</h1>
+        <p>Your report has been submitted.</p>
+        <p className="mt-4 text-sm text-gray-200">Returning shortly…</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-lg mx-auto p-6 bg-gray-800 rounded-lg text-white mt-12">
@@ -98,6 +115,7 @@ export default function ReportReviewPage() {
           placeholder="Describe the issue…"
           value={text}
           onChange={(e) => setText(e.target.value)}
+          disabled={saving}
         />
         {error && <p className="text-red-400">{error}</p>}
         <button
