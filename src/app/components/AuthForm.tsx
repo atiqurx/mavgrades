@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Poppins } from "next/font/google";
 import { IoHomeOutline } from "react-icons/io5";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -25,25 +26,29 @@ export default function AuthForm() {
     "sign_in" | "sign_up_step1" | "sign_up_step2"
   >("sign_in");
 
-  // Step1 signup fields + error
+  // STEP 1 fields + errors
   const [suEmail, setSuEmail] = useState("");
   const [suPassword, setSuPassword] = useState("");
+  const [suConfirm, setSuConfirm] = useState("");
   const [suError, setSuError] = useState("");
+  const [showPwd, setShowPwd] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  // Step2 OTP field + error
+  // STEP 2 OTP + error
   const [otp, setOtp] = useState("");
   const [otpError, setOtpError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // If already signed in, go home
+  // Redirect home if already signed in
   useEffect(() => {
     if (user) router.push("/");
   }, [user, router]);
 
-  // STEP 1: request signup → send OTP email
+  // STEP 1: request signup → send OTP
   async function handleSignUpStep1(e: React.FormEvent) {
     e.preventDefault();
     setSuError("");
+
     if (!suEmail.endsWith("@mavs.uta.edu")) {
       setSuError("You must use a @mavs.uta.edu email.");
       return;
@@ -52,6 +57,11 @@ export default function AuthForm() {
       setSuError("Password must be at least 6 characters.");
       return;
     }
+    if (suPassword !== suConfirm) {
+      setSuError("Passwords do not match.");
+      return;
+    }
+
     setIsLoading(true);
     const { error } = await supabase.auth.signUp({
       email: suEmail,
@@ -62,24 +72,25 @@ export default function AuthForm() {
     if (error) {
       setSuError(error.message);
     } else {
-      // move to OTP confirmation
       setMode("sign_up_step2");
     }
   }
 
-  // STEP 2: verify code
+  // STEP 2: verify OTP
   async function handleVerifyOtp(e: React.FormEvent) {
     e.preventDefault();
     setOtpError("");
-    if (otp.trim().length === 0) {
+
+    if (!otp.trim()) {
       setOtpError("Enter the 6-digit code.");
       return;
     }
+
     setIsLoading(true);
     const { error } = await supabase.auth.verifyOtp({
+      email: suEmail,
       token: otp.trim(),
       type: "signup",
-      email: suEmail,
     });
     setIsLoading(false);
 
@@ -103,7 +114,7 @@ export default function AuthForm() {
 
       {/* Card */}
       <div className="w-full max-w-md bg-[#1e293b] rounded-lg p-8 shadow-lg text-gray-200">
-        {/* HEADER */}
+        {/* Header */}
         <h2 className="text-3xl font-extrabold mb-6 text-center text-gray-300">
           {mode === "sign_in"
             ? "Sign In"
@@ -112,7 +123,7 @@ export default function AuthForm() {
             : "Enter Verification Code"}
         </h2>
 
-        {/* SIGN IN (built-in UI) */}
+        {/* SIGN IN (built-in) */}
         {mode === "sign_in" && (
           <Auth
             supabaseClient={supabase}
@@ -132,6 +143,7 @@ export default function AuthForm() {
             view="sign_in"
             redirectTo={window.location.origin}
             magicLink={false}
+            showLinks={false} // hide built-in footer
           />
         )}
 
@@ -146,16 +158,47 @@ export default function AuthForm() {
               className="w-full p-2 rounded bg-gray-800 text-white placeholder-gray-400"
               required
             />
-            <input
-              type="password"
-              placeholder="Password (min 6 chars)"
-              value={suPassword}
-              onChange={(e) => setSuPassword(e.target.value)}
-              className="w-full p-2 rounded bg-gray-800 text-white placeholder-gray-400"
-              required
-              minLength={6}
-            />
+
+            <div className="relative">
+              <input
+                type={showPwd ? "text" : "password"}
+                placeholder="Password"
+                value={suPassword}
+                onChange={(e) => setSuPassword(e.target.value)}
+                className="w-full p-2 rounded bg-gray-800 text-white placeholder-gray-400"
+                required
+                minLength={6}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPwd((v) => !v)}
+                className="absolute inset-y-0 right-2 flex items-center text-gray-400"
+              >
+                {showPwd ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              </button>
+            </div>
+
+            <div className="relative">
+              <input
+                type={showConfirm ? "text" : "password"}
+                placeholder="Confirm Password"
+                value={suConfirm}
+                onChange={(e) => setSuConfirm(e.target.value)}
+                className="w-full p-2 rounded bg-gray-800 text-white placeholder-gray-400"
+                required
+                minLength={6}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirm((v) => !v)}
+                className="absolute inset-y-0 right-2 flex items-center text-gray-400"
+              >
+                {showConfirm ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              </button>
+            </div>
+
             {suError && <p className="text-red-400 text-sm">{suError}</p>}
+
             <button
               type="submit"
               disabled={isLoading}
@@ -191,7 +234,7 @@ export default function AuthForm() {
           </form>
         )}
 
-        {/* TOGGLE LINK */}
+        {/* Toggle link */}
         {mode !== "sign_up_step2" && (
           <button
             onClick={() =>
@@ -205,7 +248,7 @@ export default function AuthForm() {
           </button>
         )}
 
-        {/* FOOTER */}
+        {/* Footer note */}
         {mode !== "sign_up_step2" && (
           <p className="mt-4 text-xs text-gray-400 text-center">
             * A verification email with a 6-digit code will be sent on sign up.
